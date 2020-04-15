@@ -11,7 +11,7 @@ namespace Alura.Loja.Testes.ConsoleApp
         static void Main(string[] args)
         {
             //GravarUsandoAdoNet();
-            GravarUsandoEntity();
+            GravarUsandoEntity(); // teste git
         }
 
         private static void GravarUsandoEntity()
