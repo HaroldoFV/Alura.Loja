@@ -11,7 +11,52 @@ namespace Alura.Loja.Testes.ConsoleApp
         static void Main(string[] args)
         {
             //GravarUsandoAdoNet();
-            GravarUsandoEntity(); // teste git
+            //GravarUsandoEntity(); // teste git
+            //RecuperarProdutos();
+            //ExcluirProdutos();
+            //RecuperarProdutos();
+            AtualizarProduto();
+        }
+
+        private static void AtualizarProduto()
+        {
+            // incluir um produto
+            GravarUsandoEntity();
+            RecuperarProdutos();
+
+            // atualizar o produto
+            using (var repo = new ProdutoDAOEntity())
+            {
+                Produto primeiro = repo.Produtos().First();
+                primeiro.Nome = "Harry Potter e a Ordem da Fênix - Editado";
+                repo.Atualizar(primeiro);
+            }
+            RecuperarProdutos();
+        }
+
+        private static void ExcluirProdutos()
+        {
+            using (var repo = new ProdutoDAOEntity())
+            {
+                IList<Produto> produtos = repo.Produtos();
+                foreach (var item in produtos)
+                {
+                    repo.Remover(item);
+                }
+            }
+        }
+
+        private static void RecuperarProdutos()
+        {
+            using (var repo = new ProdutoDAOEntity())
+            {
+                IList<Produto> produtos = repo.Produtos();
+                Console.WriteLine("Foram encontrados {0} produtos(s).", produtos.Count);
+                foreach (var item in produtos)
+                {
+                    Console.WriteLine(item.Nome);
+                }
+            }
         }
 
         private static void GravarUsandoEntity()
@@ -21,10 +66,9 @@ namespace Alura.Loja.Testes.ConsoleApp
             p.Categoria = "Livros";
             p.Preco = 19.89;
 
-            using (var contexto = new LojaContext())
+            using (var contexto = new ProdutoDAOEntity())
             {
-                contexto.Produtos.Add(p);
-                contexto.SaveChanges();
+                contexto.Adicionar(p);
             }
         }
 
